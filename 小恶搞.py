@@ -1,7 +1,7 @@
 import easygui as s
 import sys
 s.msgbox("大家欢迎来到实力至上主义的教室")
-while 1 :
+while True :
 
     msg=("请选择你想要吃的零食")
     title=("零食仓库")
