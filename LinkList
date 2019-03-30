@@ -1,1 +1,95 @@
 
+// LinkList.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+//
+
+#include "pch.h"
+#include <iostream>
+#include "LinkList.h"
+using namespace std;
+
+template<class DateType>
+LinkList<DateType>::LinkList() {
+	first = new Node<DateType>;
+	first->nest = NULL;//头结点的指针域为空
+}
+
+template<class DateType>
+LinkList<DateType>::LinkList(DateType a[], int n) {
+	Node<DateType>*r, *s;
+	first = new Node<DateType>;
+	r = first;//尾部初始化
+	for (int i = 0; i < n; i++) {
+		s = new Node<DateType>;
+		s->date = a[i];
+		r->next = s;
+		r = s;
+	}
+	r->next = NULL;
+
+}
+//插入操作
+template<class DateType>
+void LinkList<DateType> ::Insert(int i, DateType x) {//在i的位置插入一个元素值为x的的
+	Node<DateType>*p = first;
+	Node<DateType>*s = NULL;
+	int count = 0;
+	while (p != NULL && count < i - 1) {
+		p = p->next;//工作指针往后移
+		count++;
+	}
+	if (p == NULL)throw;// "工作指针置空时，位置异常"
+	else {
+		s = new Node<DateType>;
+		s->date = x;
+		s->next = p->next;
+		p->next = s;
+	}
+}
+
+//删除操作
+template<class DateType>
+DateType LinkList<DateType> ::Delate(int i) {
+
+	Node<DateType>*p = first;
+	Node<DateType>*s = NULL;
+	DateType x;
+	int count = 0;
+	while (p != NULL && count < i - 1) {
+		p = p->next;//指针后移
+		count++;
+	}
+	if (p == NULL)throw;//"工作指针置空时，位置异常"
+	else {
+		s = p->next;
+	    x = s->date;
+		p->next = s->next;
+		delete s;
+		return x;
+	}
+}
+
+//按值查找
+template<class DateType>
+int  LinkList<DateType> ::Locate(DateType x) {
+	Node<DateType>*p = first->next;//工作指针指向
+	int count = 1;
+	while (p != NULL) {
+		if (p->date == x)return count;//查找成功，返回序号
+		p = p->next;// 否则继续遍历
+		count++;
+	}
+	return 0;
+}
+
+//按序号依次输出各元素
+template<class DateType>
+void  LinkList<DateType> ::PrintList() {
+	Node<DateType>*p = first->next;
+	while (p != NULL) {
+		cout << p->date << "  ";
+		p = p->next;
+	}
+	cout << endl;
+}
+
+
